@@ -28,6 +28,14 @@ document
 function calcAverage(numbers) {
   let sum = 0;
   for (let num of numbers) sum += num;
-
   return sum / numbers.length;
+}
+
+function isPangram(sentence) {
+  let str = sentence.toLowerCase();
+  for (let char of "abcdefghijklmnopqrstuvwxyz") {
+    if (!str.includes(char)) return false;
+  }
+
+  return true;
 }
