@@ -13,3 +13,10 @@ console.log(`Max: ${maxGrade}`);
 
 const minGrade = grades.reduce((min, curVal) => Math.min(min, curVal));
 console.log(`Min: ${minGrade}`);
+
+// Passing initial value for accumulator
+// array.reduce(callback, initValue);
+const total = [10, 20, 30, 40, 50].reduce((total, curVal) => {
+  return total + curVal;
+}, 0);
+console.log(`Total: ${total}`);
