@@ -13,3 +13,11 @@ if (isAllEendWithG) {
 } else {
   console.log(`All words in '${words.join(", ")}' doesn't end with 'G'.`);
 }
+
+// Some
+const haveAnyWordStartWithD = words.some((w) => w.startsWith("d"));
+if (haveAnyWordStartWithD) {
+  console.log('There are at least 1 word starts with "d"');
+} else {
+  console.log('There aren"t word starts with "d"');
+}
