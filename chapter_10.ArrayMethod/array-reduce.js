@@ -112,3 +112,12 @@ const ratingGroup = books.reduce((group, book) => {
 }, {});
 
 console.log(ratingGroup);
+
+const genreGroup = books.reduce((groupedBook, book) => {
+  for (let genre of book.genres) {
+    if (!groupedBook[genre]) groupedBook[genre] = [];
+    groupedBook[genre].push({ title: book.title, genre });
+  }
+  return groupedBook;
+}, {});
+console.log(genreGroup);
