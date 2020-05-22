@@ -19,3 +19,11 @@ console.log(MyMath.add(1, 2));
 console.log(MyMath.PI);
 
 console.log(MyMath.random(8, 10));
+
+const auth = {
+  login() {
+    console.log("Logged you in!");
+  },
+};
+
+auth.login();
