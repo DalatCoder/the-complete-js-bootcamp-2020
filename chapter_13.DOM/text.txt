@@ -1,0 +1,103 @@
+innerText: get all the text between the tags (and its children)
+
+<h1>My webpage</h1>
+document.getElementById('h1').innerText
+=> My webpage
+
+textContent: similar as innerText, but it show all the text, including text which is hidden
+
+innerHTML: return string of HTML element, we can use innerHTML to add HTML element 
+document.getElementById('h1').innerHTML = '<h1>Test</h1>' 
+
+// Some properties we can access directly via DOM
+value: to get value in input field of form
+for checkbox we have checked
+get placeholder text 
+input.placeholder
+a.href
+img.src 
+
+// Method to get and set attributes
+range.getAttribute('min')
+range.getAttribute('lol') => null
+range.setAttribute('min', '-500')	
+
+we have shortcut for value, src for image,... but other attributes don't have shortcut, we must use get and set attribute
+
+// Traversal DOM
+// Access parent and children
+firstLI = document.querySelector('li')
+parentNode = firstLI.parentElement 
+
+ul = document.querySelector('ul')
+ul.children => HTMLCollection contains all of ul children
+
+firstLI.nextElementSibling => Select the next li which have the same parent 
+
+thirdLI.previousElementSibling => Selct the previous li which have the same parent
+
+// Changing multiple elements 
+const allLIs = document.querySelector('li');
+
+for (let li of allLIs) {
+	// changing individual li
+}
+
+// Changing style using JS
+// 1. Through style property
+const h1 = document.querySelector('h1')
+
+h1.style
+style property, we can use style property to set css style for element, but we can use it to read all styles that already applied unless it inline style
+
+// Get computed styles
+getComputedStyle(document.querySelector('h1'));
+=> get styles applied for h1
+ 
+ // Get all classes applied on element 
+ todo.classList => collection contains all classes have been applied
+
+ todo.classList.add('done')
+ todo.classList.remove('done')
+
+ todo.getAttribute('class').includes('done') ?
+ todo.setAttribute('class', '') :
+ todo.setAttribute('class', 'done')
+
+ => todo.classList.toggle('done')
+
+ // Create elememt
+ const newEl = document.createElement('nameOfElement')
+
+ // Insert element into DOM
+ const parent = document.querySelector('.parent');
+// Insert at the end of current parent
+parent.appendChild(newEl);
+
+// Insert before another element which have the same parent 
+parent.InsertBefore(newEl, firstLI);
+
+insert newEl before the firstLI element
+
+parent.insertAdjacentElement('beforebegin', newEl);
+
+// newer Append and Prepend
+append differs from appendChild that it allows append multile elements at once
+
+append insert new el to the last
+prepend insert new el to the begining
+
+// remove element 
+remove and removeChild 
+1. find the parent of the element 
+2. find the element which we want to remove
+
+ul.querySelector to query inside the ul 
+
+const deleted = el.parent.removeChild(el)
+
+// Remove method remove the element invoke it
+const el = document.querySelector('h1');
+el.remove()
+
+
