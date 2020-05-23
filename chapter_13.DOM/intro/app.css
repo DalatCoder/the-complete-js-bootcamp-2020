@@ -1,0 +1,55 @@
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+body {
+  box-sizing: border-box;
+  font-family: sans-serif;
+  text-align: center;
+}
+
+h1 {
+  text-transform: uppercase;
+  text-align: center;
+  font-size: 70px;
+  font-weight: 300;
+  padding: 50px 0;
+
+  width: 80%;
+  border-bottom: 1px solid #777;
+  margin: 0 auto;
+}
+
+ul {
+  list-style: none;
+  padding: 50px 20px;
+  display: inline-block;
+  margin: 0 auto;
+  font-size: 20px;
+
+  text-align: center;
+}
+
+li {
+  padding: 10px 0;
+  opacity: 1;
+  color: black;
+  text-decoration: line-through;
+  text-decoration-color: transparent;
+  transition: all 0.3s;
+}
+
+button {
+  margin-left: 10px;
+}
+
+.done {
+  text-decoration: line-through;
+  opacity: 50%;
+  color: gray;
+  cursor: pointer;
+}
