@@ -1,0 +1,23 @@
+body {
+  font-size: 30px;
+  font-family: sans-serif;
+  overflow: hidden;
+  background-color: transparent;
+  transition: all 0.5s;
+}
+
+.btn {
+  padding: 10px 30px;
+  border: none;
+  border-radius: 10px;
+  outline: none;
+  font-size: inherit;
+  cursor: pointer;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+  transition: all 0.5s;
+}
+
+.btn:hover,
+btn:active {
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.4);
+}
