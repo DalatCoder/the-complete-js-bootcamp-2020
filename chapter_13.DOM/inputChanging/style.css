@@ -1,0 +1,28 @@
+body {
+  font-size: 25px;
+  font-family: sans-serif;
+}
+
+form > * {
+  margin: 20px;
+  font-size: inherit;
+}
+
+input[type="text"] {
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: 1px solid #777;
+  outline: none;
+}
+
+input[type="submit"] {
+  padding: 10px 15px;
+  border-radius: 5px;
+  border: 1px solid #777;
+}
+
+select {
+  padding: 10px 20px;
+  border-radius: 10px;
+  outline: none;
+}
