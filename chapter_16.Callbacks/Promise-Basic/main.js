@@ -139,3 +139,69 @@ fakeRequest("/users")
   .catch((err) => {
     console.log(err);
   });
+
+const fakeRequestCB = (url, response, error) => {
+  const pages = {
+    "/users": [
+      { id: 1, username: "Bilbo" },
+      { id: 5, username: "Esmerelda" },
+    ],
+    "/users/1": {
+      id: 1,
+      username: "Bilbo",
+      upvotes: 360,
+      city: "Lisbon",
+      topPostId: 454321,
+    },
+    "/users/5": {
+      id: 5,
+      username: "Esmerelda",
+      upvotes: 571,
+      city: "Honolulu",
+    },
+    "/posts/454321": {
+      id: 454321,
+      title: "Ladies & Gentlemen, may I introduce my pet pig, Hamlet",
+    },
+    "/about": "This is the about page!",
+  };
+  const data = pages[url];
+
+  if (data) {
+    if (response) return response({ message: "success", status: 200, data });
+  } else {
+    if (error) return error({ message: "fail", status: 404 });
+  }
+};
+
+fakeRequestCB(
+  "/users",
+  (res) => {
+    const { id } = res.data[0];
+    console.log(res.data);
+
+    fakeRequestCB(
+      `/users/${id}`,
+      (res) => {
+        const { topPostId: postId } = res.data;
+        console.log(res.data);
+
+        fakeRequestCB(
+          `/posts/${postId}`,
+          (res) => {
+            console.log(res.data);
+          },
+          (err) => {
+            console.log(`Error: ${err.data}`);
+          }
+        );
+      },
+      (err) => {
+        console.log(`Error: ${err.data}`);
+      }
+    );
+  },
+  (err) => {
+    console.log(`Error: ${err.data}`);
+  }
+);
