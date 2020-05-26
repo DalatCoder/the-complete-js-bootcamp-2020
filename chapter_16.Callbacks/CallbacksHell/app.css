@@ -1,3 +1,4 @@
 button {
-	font-size: 50px;
+  font-size: 50px;
+  transition: all 0.5s;
 }
