@@ -38,8 +38,21 @@ async function get3Pokemons() {
 }
 */
 
-/*
+async function get3Pokemons() {
+  const promise1 = axios.get("https://pokeapi.co/api/v2/pokemon/1");
+
+  const promise2 = axios.get("https://pokeapi.co/api/v2/pokemon/2");
+
+  const promise3 = axios.get("https://pokeapi.co/api/v2/pokemon/3");
+
+  const results = await Promise.all([promise1, promise2, promise3]);
+  console.log(results);
+
+  for (const poke of results) {
+    console.log(poke.data.name);
+  }
+}
+
 get3Pokemons().catch((err) => {
   console.log(`ERROR! ${err}`);
 });
-*/
