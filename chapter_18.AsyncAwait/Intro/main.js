@@ -10,6 +10,7 @@
 //   return "Hello"
 // }
 
+/*
 async function greet() {
   return "Hello";
 }
@@ -44,3 +45,18 @@ const addPromise = (a, b) => {
 
 addPromise(3, 4).then(console.log).catch(console.log);
 addPromise("a", "b").then(console.log).catch(console.log);
+*/
+
+// const getPlanets = () => {
+//   return axios.get("https://swapi.dev/api/planets");
+// };
+// getPlanets()
+//   .then((res) => console.log(res.data))
+//   .catch((err) => console.log("ERROR!!", err));
+
+// Await pause the async request until it get resolved!!!!!!
+async function getPlanets() {
+  const res = await axios.get("https://swapi.dev/api/planets");
+  console.log(res.data);
+}
+getPlanets();
