@@ -7,30 +7,25 @@ axios
   .catch((err) => console.log("ERROR! ", err));
 */
 
-axios
-  .get("https://swapi.dev/api/planets")
-  .then(({ data }) => {
-    console.log("The first 10 planets...");
-    for (const planet of data.results) {
-      console.log(planet.name);
-    }
+const fetchNextPlanets = (url = "https://swapi.dev/api/planets") => {
+  return axios.get(url);
+};
 
-    return axios.get(data.next);
-  })
-  .then(({ data }) => {
-    console.log("The next 10 more planets...");
-    for (const planet of data.results) {
-      console.log(planet.name);
-    }
+const printPlanets = ({ data }) => {
+  console.log(data);
+  for (const planet of data.results) {
+    console.log(planet.name);
+  }
 
-    return axios.get(data.next);
-  })
-  .then(({ data }) => {
-    console.log("The next 10 more planets...");
-    for (const planet of data.results) {
-      console.log(planet.name);
-    }
-  })
+  return Promise.resolve(data.next);
+};
+
+fetchNextPlanets()
+  .then(printPlanets)
+  .then(fetchNextPlanets)
+  .then(printPlanets)
+  .then(fetchNextPlanets)
+  .then(printPlanets)
   .catch((err) => {
     console.log(`ERROR! ${err}`);
   });
