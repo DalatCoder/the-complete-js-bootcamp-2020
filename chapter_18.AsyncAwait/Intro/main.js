@@ -54,9 +54,21 @@ addPromise("a", "b").then(console.log).catch(console.log);
 //   .then((res) => console.log(res.data))
 //   .catch((err) => console.log("ERROR!!", err));
 
-// Await pause the async request until it get resolved!!!!!!
+/*
+// Await pause the axios promise until it get resolved!!!!!!
 async function getPlanets() {
   const res = await axios.get("https://swapi.dev/api/planets");
   console.log(res.data);
+}
+getPlanets().catch((err) => console.log("ERROR! ", err));
+*/
+
+async function getPlanets() {
+  try {
+    const res = await axios.get("https://swapi.dev/api/planets");
+    console.log(res.data);
+  } catch (err) {
+    console.log("ERROR! ", err);
+  }
 }
 getPlanets();
