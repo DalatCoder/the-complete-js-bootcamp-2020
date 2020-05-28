@@ -38,6 +38,7 @@ firstReq.send();
 console.log("Request send!");
 */
 
+/*
 fetch("https://swapi.dev/api/planets")
   .then((res) => {
     if (!res.ok) {
@@ -71,6 +72,45 @@ fetch("https://swapi.dev/api/planets")
   .then((data) => {
     console.log(data.title);
   })
+  .catch((err) => {
+    console.log("ERROR! ", err);
+  });
+*/
+
+const checkStatusAndParse = (response) => {
+  if (!response.ok) {
+    throw new Error(`Status Code Error: ${response.satus}`);
+  }
+
+  return response.json();
+};
+
+const printPlanets = (data) => {
+  console.log("Loaded 10 more planets...");
+  for (const planet of data.results) {
+    console.log(planet.name);
+  }
+
+  // return new Promise((resolve, reject) => {
+  //   resolve(data);
+  // });
+
+  return Promise.resolve(data.next);
+};
+
+const fetchNextPlanets = (url = "https://swapi.dev/api/planets") => {
+  return fetch(url);
+};
+
+fetch("https://swapi.dev/api/planets")
+  .then(checkStatusAndParse)
+  .then(printPlanets)
+  .then(fetchNextPlanets)
+  .then(checkStatusAndParse)
+  .then(printPlanets)
+  .then(fetchNextPlanets)
+  .then(checkStatusAndParse)
+  .then(printPlanets)
   .catch((err) => {
     console.log("ERROR! ", err);
   });
