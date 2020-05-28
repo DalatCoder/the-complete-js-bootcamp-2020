@@ -1,3 +1,4 @@
+/*
 const firstReq = new XMLHttpRequest();
 
 firstReq.addEventListener("load", function () {
@@ -35,3 +36,41 @@ firstReq.open("GET", "https://swapi.dev/api/planets");
 
 firstReq.send();
 console.log("Request send!");
+*/
+
+fetch("https://swapi.dev/api/planets")
+  .then((res) => {
+    if (!res.ok) {
+      throw new Error(`Status Code Error: ${res.satus}`);
+    }
+
+    console.log("Fetch all planets");
+    return res.json();
+  })
+  .then((data) => {
+    if (!data) {
+      throw new Error("There was not data!");
+    }
+
+    console.log(data);
+    for (const planet of data.results) {
+      console.log(planet.name);
+    }
+
+    const filmURL = data.results[0].films[0];
+    return fetch(filmURL);
+  })
+  .then((res) => {
+    if (!res.ok) {
+      throw new Error(`Status Code Error: ${res.satus}`);
+    }
+
+    console.log("Fetch movies of the first planet");
+    return res.json();
+  })
+  .then((data) => {
+    console.log(data.title);
+  })
+  .catch((err) => {
+    console.log("ERROR! ", err);
+  });
