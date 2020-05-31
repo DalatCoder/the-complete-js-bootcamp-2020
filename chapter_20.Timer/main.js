@@ -4,11 +4,20 @@ class Timer {
     this.startButton = startButton;
     this.pauseButton = pauseButton;
 
-    this.startButton.addEventListener("click", this.start);
+    // this.startButton.addEventListener("click", this.start);
+    // .bind return the function changed context of 'this'
+    this.startButton.addEventListener("click", this.start.bind(this));
   }
+
+  // Function is call inside class constructor, so the this refer to the instance of class Timer
+  // start = () => {
+  //   console.log("Time to start the timer!");
+  //   console.log(this);
+  // };
 
   start() {
     console.log("Time to start the timer!");
+    console.log(this);
   }
 }
 
