@@ -24,9 +24,21 @@ class Timer {
   // }
 
   tick = () => {
-    const timeRemaining = parseFloat(durationInput.value);
-    durationInput.value = timeRemaining - 1;
+    this.timeRemaining = this.timeRemaining - 1;
   };
+
+  // getTime = () => parseFloat(this.durationInput.value);
+  // setTime = (value) => (this.durationInput.value = value);
+
+  // getter
+  get timeRemaining() {
+    return parseFloat(this.durationInput.value);
+  }
+
+  // setter
+  set timeRemaining(time) {
+    this.durationInput.value = time;
+  }
 
   pause = () => {
     clearInterval(this.intervalId);
