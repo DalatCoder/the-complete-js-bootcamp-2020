@@ -24,7 +24,8 @@ class Timer {
   // }
 
   tick = () => {
-    console.log("tick");
+    const timeRemaining = parseFloat(durationInput.value);
+    durationInput.value = timeRemaining - 1;
   };
 
   pause = () => {
