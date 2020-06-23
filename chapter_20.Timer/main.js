@@ -18,7 +18,8 @@ class Timer {
   }
 
   tick = () => {
-    console.log('Tick')
+    const timeRemaining = this.durationInput.value * 1
+    this.durationInput.value = timeRemaining - 1
   }
 }
 
