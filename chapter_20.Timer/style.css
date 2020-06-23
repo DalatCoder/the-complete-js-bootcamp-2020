@@ -1,25 +1,57 @@
-*,
-*::before,
-*::after {
-  margin: 0;
-  padding: 0;
-  box-sizing: inherit;
+.dial {
+  height: 400px;
+  width: 400px;
+}
+
+.timer {
+  position: relative;
+  display: inline-block;
+}
+
+* {
+  font: inherit;
 }
 
 body {
-  box-sizing: border-box;
+  font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Fira Sans',
+    'Droid Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-svg {
-  width: 500px;
-  height: 500px;
+.timer input {
   display: block;
-  margin: 50px auto;
+  border: none;
+  width: 240px;
+  font-size: 90px;
+  text-align: center;
 }
 
-circle {
-  fill: transparent;
-  stroke: black;
-  stroke-width: 3%;
-  stroke-dasharray: 10px;
+.timer button {
+  border: none;
+  font-size: 36px;
+  cursor: pointer;
+}
+
+.timer button:focus {
+  outline: none;
+}
+
+.timer input:focus {
+  outline: none;
+}
+
+.controls {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
