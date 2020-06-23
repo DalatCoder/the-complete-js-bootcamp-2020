@@ -15,10 +15,10 @@ class Timer {
   }
 
   get timeRemaining() {
-    return parseInt(this.durationInput.value)
+    return parseFloat(this.durationInput.value)
   }
   set timeRemaining(value) {
-    this.durationInput.value = value
+    this.durationInput.value = value.toFixed(2)
   }
 
   start = () => {
@@ -27,7 +27,7 @@ class Timer {
     }
 
     this.tick()
-    this.interval = setInterval(this.tick, 1000)
+    this.interval = setInterval(this.tick, 50)
   }
 
   pause = () => {
@@ -35,7 +35,7 @@ class Timer {
   }
 
   tick = () => {
-    if (this.timeRemaining <= 0) {
+    if (this.timeRemaining <= 0.0) {
       this.pause()
       if (this.onComplete) {
         this.onComplete()
@@ -43,7 +43,7 @@ class Timer {
       return
     }
 
-    this.timeRemaining = this.timeRemaining - 1
+    this.timeRemaining = this.timeRemaining - 0.05
     if (this.onTick) {
       this.onTick()
     }

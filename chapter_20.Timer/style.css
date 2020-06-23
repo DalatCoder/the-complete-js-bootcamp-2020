@@ -1,0 +1,25 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+body {
+  box-sizing: border-box;
+}
+
+svg {
+  width: 500px;
+  height: 500px;
+  display: block;
+  margin: 50px auto;
+}
+
+circle {
+  fill: transparent;
+  stroke: black;
+  stroke-width: 3%;
+  stroke-dasharray: 10px;
+}
