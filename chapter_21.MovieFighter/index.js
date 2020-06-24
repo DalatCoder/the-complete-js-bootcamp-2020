@@ -4,7 +4,7 @@ const fetchData = async () => {
   const response = await axios.get(url, {
     params: {
       apikey: "e50df26a",
-      s: "avengers",
+      i: "tt4154756",
     },
   });
 
