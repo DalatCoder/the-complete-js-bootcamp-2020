@@ -52,3 +52,13 @@ const onInput = async (event) => {
 }
 
 input.addEventListener('input', debounce(onInput))
+
+/**
+ * If user click outside the dropdown then
+ * close the dropdown menu
+ */
+document.addEventListener('click', (event) => {
+  if (!root.contains(event.target)) {
+    dropdown.classList.remove('is-active')
+  }
+})
