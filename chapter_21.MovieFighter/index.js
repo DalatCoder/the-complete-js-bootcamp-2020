@@ -67,7 +67,25 @@ const onMovieSelect = async (movie, summaryElement, side) => {
 }
 
 const runComparison = () => {
-  console.log('Time for comparision')
+  const leftSideStats = document.querySelectorAll('#left-summary .notification')
+  const rightSideStats = document.querySelectorAll(
+    '#right-summary .notification'
+  )
+
+  leftSideStats.forEach((leftStat, index) => {
+    const rightStat = rightSideStats[index]
+
+    const leftSideValue = leftStat.dataset.value
+    const rightSideValue = rightStat.dataset.value
+
+    if (rightSideValue > leftSideValue) {
+      leftStat.classList.remove('is-primary')
+      leftStat.classList.add('is-warning')
+    } else {
+      rightStat.classList.remove('is-primary')
+      rightStat.classList.add('is-warning')
+    }
+  })
 }
 
 const movieTemplate = (movieDetail) => {
@@ -88,8 +106,14 @@ const movieTemplate = (movieDetail) => {
   const metascore = parseInt(Metascore)
   const imdbScore = parseFloat(imdbRating)
   const imdbVotesNumber = parseInt(imdbVotes.replace(/,/g, ''))
+  const awards = Awards.split(' ').reduce((prev, word) => {
+    const value = parseInt(word)
 
-  console.log(dollars, metascore, imdbScore, imdbVotesNumber)
+    if (isNaN(value)) {
+      return prev
+    }
+    return prev + value
+  }, 0)
 
   return `
     <article class="media">
@@ -106,23 +130,23 @@ const movieTemplate = (movieDetail) => {
         </div>
       </div>
     </article>
-    <article class="notification is-primary">
+    <article data-value=${awards} class="notification is-primary">
       <p class="title">${Awards}</p>
       <p class="subtitle">Awards</p>
     </article>
-    <article data-value= class="notification is-primary">
+    <article data-value=${dollars} class="notification is-primary">
       <p class="title">${BoxOffice}</p>
       <p class="subtitle">Box Office</p>
     </article>
-    <article class="notification is-primary">
+    <article data-value=${metascore} class="notification is-primary">
       <p class="title">${Metascore}</p>
       <p class="subtitle">Metascore</p>
     </article>
-    <article class="notification is-primary">
+    <article data-value=${imdbScore} class="notification is-primary">
       <p class="title">${imdbRating}</p>
       <p class="subtitle">IMDB Rating</p>
     </article>
-    <article class="notification is-primary">
+    <article data-value=${imdbVotesNumber} class="notification is-primary">
       <p class="title">${imdbVotes}</p>
       <p class="subtitle">IMDB Votes</p>
     </article>
