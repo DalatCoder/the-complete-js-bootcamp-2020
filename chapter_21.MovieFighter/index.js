@@ -35,6 +35,11 @@ const resultsWrapper = document.querySelector('.results')
 const onInput = async (event) => {
   const movies = await fetchData(event.target.value)
 
+  if (!movies.length) {
+    dropdown.classList.remove('is-active')
+    return
+  }
+
   resultsWrapper.innerHTML = ''
   dropdown.classList.add('is-active')
   for (const movie of movies) {
@@ -43,9 +48,13 @@ const onInput = async (event) => {
 
     option.classList.add('dropdown-item')
     option.innerHTML = `
-      <img src="${imgSrc}" alt="${movie.Title + 'photo'}" />
+      <img src="${imgSrc}" />
       ${movie.Title} (${movie.Year})
     `
+    option.addEventListener('click', (event) => {
+      dropdown.classList.remove('is-active')
+      input.value = movie.Title
+    })
 
     resultsWrapper.appendChild(option)
   }
