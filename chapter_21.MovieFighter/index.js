@@ -1,5 +1,4 @@
-createAutocomplete({
-  root: document.querySelector('.autocomplete'),
+const autocompleteConfig = {
   renderOption(movie) {
     const imgSrc = movie.Poster === 'N/A' ? '' : movie.Poster
     return `
@@ -27,6 +26,16 @@ createAutocomplete({
 
     return response.data.Search // list of movies
   },
+}
+
+createAutocomplete({
+  ...autocompleteConfig,
+  root: document.querySelector('#left-autocomplete'),
+})
+
+createAutocomplete({
+  ...autocompleteConfig,
+  root: document.querySelector('#right-autocomplete'),
 })
 
 const onMovieSelect = async (movie) => {
