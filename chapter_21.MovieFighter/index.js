@@ -1,26 +1,36 @@
-const url = 'http://www.omdbapi.com/'
-
-const fetchData = async (searchTerm) => {
-  const response = await axios.get(url, {
-    params: {
-      apikey: 'e50df26a',
-      s: searchTerm,
-    },
-  })
-
-  if (response.data.Error) {
-    return []
-  }
-
-  return response.data.Search // list of movies
-}
-
 createAutocomplete({
   root: document.querySelector('.autocomplete'),
+  renderOption(movie) {
+    const imgSrc = movie.Poster === 'N/A' ? '' : movie.Poster
+    return `
+      <img src="${imgSrc}" />
+      ${movie.Title} (${movie.Year})
+    `
+  },
+  onOptionSelect(movie) {
+    onMovieSelect(movie)
+  },
+  inputValue(movie) {
+    return movie.Title
+  },
+  async fetchData(searchTerm) {
+    const response = await axios.get('http://www.omdbapi.com/', {
+      params: {
+        apikey: 'e50df26a',
+        s: searchTerm,
+      },
+    })
+
+    if (response.data.Error) {
+      return []
+    }
+
+    return response.data.Search // list of movies
+  },
 })
 
 const onMovieSelect = async (movie) => {
-  const response = await axios.get(url, {
+  const response = await axios.get('http://www.omdbapi.com/', {
     params: {
       apikey: 'e50df26a',
       i: movie.imdbID,
