@@ -51,9 +51,11 @@ const onInput = async (event) => {
       <img src="${imgSrc}" />
       ${movie.Title} (${movie.Year})
     `
-    option.addEventListener('click', (event) => {
+    option.addEventListener('click', () => {
       dropdown.classList.remove('is-active')
       input.value = movie.Title
+
+      onMovieSelect(movie)
     })
 
     resultsWrapper.appendChild(option)
@@ -71,3 +73,14 @@ document.addEventListener('click', (event) => {
     dropdown.classList.remove('is-active')
   }
 })
+
+const onMovieSelect = async (movie) => {
+  const response = await axios.get(url, {
+    params: {
+      apikey: 'e50df26a',
+      i: movie.imdbID,
+    },
+  })
+
+  console.log(response.data)
+}
