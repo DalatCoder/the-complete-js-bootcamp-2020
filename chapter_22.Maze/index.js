@@ -3,7 +3,8 @@ const { Engine, Render, Runner, World, Bodies } = Matter
 const cells = 3
 const width = 600
 const height = 600
-const edgeWeight = 40
+const borderWeight = 40
+const edgeWeight = 5
 
 const unitLength = width / cells
 
@@ -22,10 +23,10 @@ Runner.run(Runner.create(), engine)
 
 // Walls
 const walls = [
-  Bodies.rectangle(width / 2, 0, width, edgeWeight, { isStatic: true }), // top border
-  Bodies.rectangle(width / 2, height, width, edgeWeight, { isStatic: true }), // bottom border
-  Bodies.rectangle(0, height / 2, edgeWeight, height, { isStatic: true }), // left border
-  Bodies.rectangle(width, height / 2, edgeWeight, height, { isStatic: true }) // right border
+  Bodies.rectangle(width / 2, 0, width, borderWeight, { isStatic: true }), // top border
+  Bodies.rectangle(width / 2, height, width, borderWeight, { isStatic: true }), // bottom border
+  Bodies.rectangle(0, height / 2, borderWeight, height, { isStatic: true }), // left border
+  Bodies.rectangle(width, height / 2, borderWeight, height, { isStatic: true }) // right border
 ]
 World.add(world, walls)
 
@@ -101,7 +102,26 @@ horizontals.forEach((row, rowIndex) => {
       columnIndex * unitLength + unitLength / 2,
       rowIndex * unitLength + unitLength,
       unitLength,
-      10,
+      edgeWeight,
+      {
+        isStatic: true
+      }
+    )
+    World.add(world, wall)
+  })
+})
+
+verticals.forEach((row, rowIndex) => {
+  row.forEach((open, columnIndex) => {
+    if (open) {
+      return
+    }
+
+    const wall = Bodies.rectangle(
+      columnIndex * unitLength + unitLength,
+      rowIndex * unitLength + unitLength / 2,
+      edgeWeight,
+      unitLength,
       {
         isStatic: true
       }
