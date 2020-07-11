@@ -1,10 +1,10 @@
 const { Engine, Render, Runner, World, Bodies } = Matter
 
-const cells = 3
+const cells = 10
 const width = 600
 const height = 600
-const borderWeight = 40
-const edgeWeight = 5
+const borderWeight = 5
+const edgeWeight = 3
 
 const unitLength = width / cells
 
@@ -129,3 +129,14 @@ verticals.forEach((row, rowIndex) => {
     World.add(world, wall)
   })
 })
+
+const goal = Bodies.rectangle(
+  width - unitLength / 2,
+  height - unitLength / 2,
+  unitLength * 0.7,
+  unitLength * 0.7,
+  {
+    isStatic: true
+  }
+)
+World.add(world, goal)
