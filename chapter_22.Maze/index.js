@@ -1,20 +1,27 @@
 const { Engine, Render, Runner, World, Bodies, Body, Events } = Matter
 
-const cells = 10
-const width = 600
-const height = 600
+const cellsHorizontal = 4
+const cellsVertical = 3
+const width = window.innerWidth
+const height = window.innerHeight
 const borderWeight = 5
 const edgeWeight = 3
 
-const unitLength = width / cells
+const unitLengthX = width / cellsHorizontal
+const unitLengthY = height / cellsVertical
+
+const wallColor = '#53354a'
+const ballColor = '#e84545'
+const goalColor = '#903749'
 
 const engine = Engine.create()
 engine.world.gravity.y = 0
 const { world } = engine
 const render = Render.create({
-  element: document.querySelector('.container'),
+  element: document.body,
   engine,
   options: {
+    wireframes: false,
     width,
     height
   }
@@ -32,12 +39,12 @@ const walls = [
 World.add(world, walls)
 
 // Maze generation || Generate 2 dimensional array with defaul value set to false
-const grid = generateGrid(cells, cells)
-const verticals = generateGrid(cells, cells - 1)
-const horizontals = generateGrid(cells - 1, cells)
+const grid = generateGrid(cellsVertical, cellsHorizontal)
+const verticals = generateGrid(cellsVertical, cellsHorizontal - 1)
+const horizontals = generateGrid(cellsVertical - 1, cellsHorizontal)
 
-const startRow = Math.floor(Math.random() * cells)
-const startColumn = Math.floor(Math.random() * cells)
+const startRow = Math.floor(Math.random() * cellsVertical)
+const startColumn = Math.floor(Math.random() * cellsHorizontal)
 
 const stepThroughCell = (row, column) => {
   // If i have visited the cell at [row, column], then return
@@ -63,9 +70,9 @@ const stepThroughCell = (row, column) => {
     // See if that neighbor is out of bounds
     if (
       nextRow < 0 ||
-      nextRow >= cells ||
+      nextRow >= cellsVertical ||
       nextColumn < 0 ||
-      nextColumn >= cells
+      nextColumn >= cellsHorizontal
     ) {
       continue
     }
@@ -93,6 +100,14 @@ const stepThroughCell = (row, column) => {
 
 stepThroughCell(startRow, startColumn)
 
+const wallOptionConfig = {
+  isStatic: true,
+  label: 'wall',
+  render: {
+    fillStyle: wallColor
+  }
+}
+
 horizontals.forEach((row, rowIndex) => {
   row.forEach((open, columnIndex) => {
     if (open) {
@@ -100,14 +115,11 @@ horizontals.forEach((row, rowIndex) => {
     }
 
     const wall = Bodies.rectangle(
-      columnIndex * unitLength + unitLength / 2,
-      rowIndex * unitLength + unitLength,
-      unitLength,
+      columnIndex * unitLengthX + unitLengthX / 2,
+      rowIndex * unitLengthY + unitLengthY,
+      unitLengthX,
       edgeWeight,
-      {
-        isStatic: true,
-        label: 'wall'
-      }
+      wallOptionConfig
     )
     World.add(world, wall)
   })
@@ -120,35 +132,40 @@ verticals.forEach((row, rowIndex) => {
     }
 
     const wall = Bodies.rectangle(
-      columnIndex * unitLength + unitLength,
-      rowIndex * unitLength + unitLength / 2,
+      columnIndex * unitLengthX + unitLengthX,
+      rowIndex * unitLengthY + unitLengthY / 2,
       edgeWeight,
-      unitLength,
-      {
-        isStatic: true,
-        label: 'wall'
-      }
+      unitLengthY,
+      wallOptionConfig
     )
     World.add(world, wall)
   })
 })
 
 // Goal
+const goalLength = Math.min(unitLengthX, unitLengthY) * 0.7
 const goal = Bodies.rectangle(
-  width - unitLength / 2,
-  height - unitLength / 2,
-  unitLength * 0.7,
-  unitLength * 0.7,
+  width - unitLengthX / 2,
+  height - unitLengthY / 2,
+  goalLength,
+  goalLength,
   {
     isStatic: true,
-    label: 'goal'
+    label: 'goal',
+    render: {
+      fillStyle: goalColor
+    }
   }
 )
 World.add(world, goal)
 
 // Ball
-const ball = Bodies.circle(unitLength / 2, unitLength / 2, unitLength * 0.3, {
-  label: 'ball'
+const ballRadius = Math.min(unitLengthX, unitLengthY) * 0.3
+const ball = Bodies.circle(unitLengthX / 2, unitLengthY / 2, ballRadius, {
+  label: 'ball',
+  render: {
+    fillStyle: ballColor
+  }
 })
 World.add(world, ball)
 
@@ -181,6 +198,7 @@ Events.on(engine, 'collisionStart', (event) => {
       labels.includes(collision.bodyA.label) &&
       labels.includes(collision.bodyB.label)
     ) {
+      document.querySelector('.winner').classList.remove('hidden')
       world.gravity.y = 1
       world.bodies.forEach((body) => {
         if (body.label === 'wall') {
