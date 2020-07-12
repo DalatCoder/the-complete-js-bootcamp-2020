@@ -187,6 +187,12 @@ document.addEventListener('keydown', (event) => {
   if (event.keyCode === 65 || event.keyCode === 37) {
     Body.setVelocity(ball, { x: x - 5, y })
   }
+
+  // Enable cheat
+  if (event.keyCode === 67) {
+    // debugger
+    cheat()
+  }
 })
 
 // Win condition
@@ -208,3 +214,128 @@ Events.on(engine, 'collisionStart', (event) => {
     }
   })
 })
+
+const isConnect = (curCell, nextCell) => {
+  const [row, column] = curCell
+  const [nextRow, nextColumn] = nextCell
+
+  // Same row
+  if (row === nextRow) {
+    return verticals[row][column]
+  }
+
+  // Same column
+  if (column === nextColumn) {
+    return horizontals[row][column]
+  }
+
+  // 2 cells are not adjacent
+  return false
+}
+
+const cheat = () => {
+  // Solve maze
+  const isConnect = (curCell, nextCell) => {
+    const [row, column] = curCell
+    const [nextRow, nextColumn] = nextCell
+
+    const minRow = Math.min(row, nextRow)
+    const minColumn = Math.min(column, nextColumn)
+
+    // Same row
+    if (row === nextRow) {
+      return verticals[minRow][minColumn]
+    }
+
+    // Same column
+    if (column === nextColumn) {
+      return horizontals[minRow][minColumn]
+    }
+
+    // 2 cells are not adjacent
+    return false
+  }
+
+  const solveGrid = generateGrid(cellsVertical, cellsHorizontal)
+
+  let flag = false
+  const findPath = (row, column) => {
+    // If [row][column] is the goal
+    if (row === cellsVertical - 1 && column === cellsHorizontal - 1) {
+      flag = true
+      return
+    }
+
+    // Mark this cell as being visited
+    solveGrid[row][column] = true
+
+    // Assemble randomly-ordered list of neighbors
+    const neighbors = [
+      [row - 1, column], // top
+      [row + 1, column], // bottom
+      [row, column - 1], // left
+      [row, column + 1] // right
+    ]
+
+    for (const neighbor of neighbors) {
+      const [nextRow, nextColumn] = neighbor
+
+      // See if that neighbor is out of bounds
+      if (
+        nextRow < 0 ||
+        nextRow >= cellsVertical ||
+        nextColumn < 0 ||
+        nextColumn >= cellsHorizontal
+      ) {
+        continue
+      }
+
+      // If we have visited that neighbor, continue to next neighbor
+      if (solveGrid[nextRow][nextColumn]) {
+        continue
+      }
+
+      // If 2 cells are not connected, continue to next neighbor
+      if (!isConnect([row, column], [nextRow, nextColumn])) {
+        continue
+      }
+
+      // Recursion
+      findPath(nextRow, nextColumn)
+
+      // If we find the goal, then return to exit the function
+      if (flag) {
+        return
+      }
+    }
+
+    // Try another option
+    solveGrid[row][column] = false
+  }
+
+  findPath(0, 0)
+
+  // Draw result path
+  solveGrid[0][0] = false
+
+  solveGrid.forEach((row, rowIndex) => {
+    row.forEach((marked, columnIndex) => {
+      if (marked) {
+        const wall = Bodies.rectangle(
+          columnIndex * unitLengthX + unitLengthX / 2,
+          rowIndex * unitLengthY + unitLengthY / 2,
+          10,
+          10,
+          {
+            isStatic: true,
+            label: 'point',
+            render: {
+              fillStyle: wallColor
+            }
+          }
+        )
+        World.add(world, wall)
+      }
+    })
+  })
+}
