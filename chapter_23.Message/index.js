@@ -1,3 +1,14 @@
+const { hash } = window.location
+if (hash) {
+  const message = atob(hash.replace('#', ''))
+
+  document.querySelector('#message-form').classList.add('hide')
+  const showForm = document.querySelector('#message-show')
+
+  showForm.classList.remove('hide')
+  showForm.querySelector('h1').innerText = message
+}
+
 document.querySelector('form').addEventListener('submit', (event) => {
   // Prevent browser from auto refresh webpage
   event.preventDefault()
