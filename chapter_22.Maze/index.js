@@ -207,7 +207,7 @@ Events.on(engine, 'collisionStart', (event) => {
       document.querySelector('.winner').classList.remove('hidden')
       world.gravity.y = 1
       world.bodies.forEach((body) => {
-        if (body.label === 'wall') {
+        if (body.label === 'wall' || body.label === 'point') {
           Body.setStatic(body, false)
         }
       })
@@ -328,6 +328,7 @@ const cheat = () => {
           10,
           {
             isStatic: true,
+            isSensor: true,
             label: 'point',
             render: {
               fillStyle: wallColor
