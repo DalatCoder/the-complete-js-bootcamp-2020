@@ -80,11 +80,11 @@ const { lstat } = fs.promises;
     const allStats = await Promise.all(statPromises);
     allStats.forEach((stats, idx) => {
       if (stats.isFile()) {
-        console.log(filenames[idx]);
+        console.log(chalk.magenta(filenames[idx]));
         return;
       }
 
-      console.log(chalk.bold(filenames[idx]));
+      console.log(chalk.bold.cyanBright(filenames[idx] + '/'));
     });
   } catch (err) {
     console.error(err);
