@@ -1,5 +1,6 @@
 const fs = require('fs');
 const util = require('util');
+const chalk = require('chalk');
 
 const readdirPromise = (path) => {
   return new Promise((resolve, reject) => {
@@ -73,7 +74,14 @@ const { lstat } = fs.promises;
 
     const allStats = await Promise.all(statPromises);
     allStats.forEach((stats, idx) => {
-      console.log(filenames[idx], stats.isFile());
+      if (stats.isFile()) {
+        console.log(filenames[idx]);
+        return;
+      }
+
+      console.log(chalk.bold(filenames[idx]));
     });
-  } catch (err) {}
+  } catch (err) {
+    console.error(err);
+  }
 })();
