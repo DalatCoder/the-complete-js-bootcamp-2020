@@ -1,17 +1,17 @@
-const fs = require('fs')
-const util = require('util')
+const fs = require('fs');
+const util = require('util');
 
 const readdirPromise = (path) => {
   return new Promise((resolve, reject) => {
     fs.readdir(path, (err, filenames) => {
       if (err) {
-        reject(err)
+        reject(err);
       }
 
-      resolve(filenames)
-    })
-  })
-}
+      resolve(filenames);
+    });
+  });
+};
 
 // Method #1
 // const lstatPromise = (path) => {
@@ -30,8 +30,9 @@ const readdirPromise = (path) => {
 // const lstatPromise = util.promisify(fs.lstat)
 
 // Method #3 | using fs promise API
-const { lstat } = fs.promises
+const { lstat } = fs.promises;
 
+// Approach #1
 // fs.readdir(process.cwd(), (err, filenames) => {
 //   if (err) {
 //     console.log(err)
@@ -52,13 +53,27 @@ const { lstat } = fs.promises
 //   // BAD CODE COMPLETE!!!
 // })
 
-readdirPromise(process.cwd())
-  .then(async (filenames) => {
-    for (let filename of filenames) {
-      const stats = await lstat(filename)
-      console.log(filename, stats.isFile())
-    }
-  })
-  .catch((err) => {
-    console.error(err)
-  })
+// Approach #2 | Promise run in order
+// readdirPromise(process.cwd())
+//   .then(async (filenames) => {
+//     for (let filename of filenames) {
+//       const stats = await lstat(filename)
+//       console.log(filename, stats.isFile())
+//     }
+//   })
+//   .catch((err) => {
+//     console.error(err)
+//   })
+
+// Approach #3
+(async function () {
+  try {
+    const filenames = await readdirPromise(process.cwd());
+    const statPromises = filenames.map(lstat);
+
+    const allStats = await Promise.all(statPromises);
+    allStats.forEach((stats, idx) => {
+      console.log(filenames[idx], stats.isFile());
+    });
+  } catch (err) {}
+})();
